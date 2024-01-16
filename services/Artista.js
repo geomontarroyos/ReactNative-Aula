@@ -3,22 +3,18 @@ import db from "./connectDb.js";
 db.transaction((tx) => {
 
   tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS produtos (id INTEGER PRIMARY KEY AUTOINCREMENT, nomeProduto TEXT, valor INT);"
+    "CREATE TABLE IF NOT EXISTS artistas (id INTEGER PRIMARY KEY AUTOINCREMENT, nome_artistico TEXT, genero TEXT);"
   );
   
 });
-const produto = {
-  nomeProduto: "Pão",
-  valor: 8.00
-}
 
 const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "INSERT INTO produtos (nome, valor) values (?, ?);",
-        [obj.nameProduto, obj.valor],
+        "INSERT INTO artistas (nome_artistico, genero) values (?, ?);",
+        [obj.nomeArtistico, obj.genero],
         //-----------------------
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);
@@ -34,7 +30,7 @@ const findAll = () => {
     db.transaction((tx) => {
       //comando SQL modificável
       tx.executeSql(
-        "SELECT * FROM produtos;",
+        "SELECT * FROM artistas;",
         [],
         //-----------------------
         (_, { rows }) => resolve(rows._array),
